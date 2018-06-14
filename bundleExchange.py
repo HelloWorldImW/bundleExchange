@@ -10,12 +10,27 @@ def strchr(sStr1,sStr2):
         a = -1
     return a
 
-for parent,dirnames,filenames in os.walk('./bundle'):
-    for filename in filenames:
-        expName = ''
-        needApped = False
-        if strchr(os.path.splitext(filename)[0],'@2x') == -1 and strchr(os.path.splitext(filename)[0],'@3x') ==-1 :
-            needApped = True
-        if needApped:
-            expName = os.path.splitext(filename)[0]+'@2x'+os.path.splitext(filename)[1]
-        os.system("cp "+os.path.join(parent,filename)+" ./source/"+expName)
+def getFileName(path,fileName):
+    fPath =  os.path.split(path)[-1]
+    fPath = os.path.splitext(fPath)[0]
+    fName = os.path.splitext(fileName)[0]
+    suffix = os.path.splitext(fileName)[1]
+    if suffix != '.png':
+        return -1
+    if strchr(os.path.splitext(fileName)[0],'@2x') == -1 and strchr(os.path.splitext(fileName)[0],'@3x') ==-1:
+        fPath = os.path.splitext(fileName)[0]+'@2x.png'
+    elif strchr(os.path.splitext(fileName)[0],'@2x'):
+        fPath = fPath+'@2x.png'
+    elif strchr(os.path.splitext(fileName)[0],'@3x'):
+        fPath = fPath+'@3x.png'
+    return fPath
+
+def exchangeBundle(sourcePath,targetPath):
+    for parent,dirnames,filenames in os.walk('./asset'):
+        for file in filenames:
+            fileName = getFileName(parent,file)
+            if fileName != -1:
+                print (fileName)
+                os.system("cp "+os.path.join(parent,file)+" ./bundle/"+fileName)
+
+exchangeBundle('./asset','./bundle')
