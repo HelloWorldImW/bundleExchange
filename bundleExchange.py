@@ -20,9 +20,9 @@ def getFileName(path,fileName):
         return -1
     if strchr(fName,'@2x') == -1 and strchr(fName,'@3x') ==-1:
         fPath = fPath+'.png'
-    elif strchr(fName,'@2x') == -1:
+    elif strchr(fName,'@2x') != -1:
         fPath = fPath+'@2x.png'
-    elif strchr(fName,'@3x') == -1:
+    elif strchr(fName,'@3x') != -1:
         fPath = fPath+'@3x.png'
     return fPath
 
